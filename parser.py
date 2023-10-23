@@ -7,7 +7,7 @@
 import pandas as pd
 import numpy as np
 
-df_path:str = "PATH-TO-DF"
+df_path:str = "/Users/elizabethterveen/Downloads/Black Archive.xlsx - Periodicals & Journals.xlsx - Table 1.csv"
 
 def chunk(archive_data:pd.DataFrame) -> list:
     return list(archive_data[archive_data["Number"].isna() == False].index)
