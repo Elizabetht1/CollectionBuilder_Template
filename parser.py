@@ -38,7 +38,7 @@ def parse(archive_data:pd.DataFrame)->pd.DataFrame:
         start:int = chunk_inds[i-1] #initalize a chunk
         end:int= chunk_inds[i]
 
-        new_row:list = list(df.iloc[start]) #put the start row in new row 
+        new_row:list = list(archive_data.iloc[start]) #put the start row in new row 
         
         ##flatten all rows associated with this object into a single cell 
         for c in range(len(cols)) : 
