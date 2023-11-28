@@ -7,7 +7,8 @@
 import pandas as pd
 import numpy as np
 
-df_path:str = "/Users/elizabethterveen/Downloads/Black Archive.xlsx - Periodicals & Journals.xlsx - Table 1.csv"
+df_path:str = "/Users/elizabethterveen/Downloads/Black Archive.xlsx - Books.xlsx - Table 1 (1).csv"
+PATH_TO_SAVE:str = "/Users/elizabethterveen/Desktop/parsed_spreadsheet.csv"
 
 def chunk(archive_data:pd.DataFrame) -> list:
     return list(archive_data[archive_data["Number"].isna() == False].index)
@@ -19,8 +20,13 @@ def condense_col(archive_data:pd.DataFrame,column:str,start_ind:int,end_ind:int)
     while s <e:
         ##concat col_str with the next ind
         elem = archive_data.iloc[s][column]
-        if elem is not np.nan:
-            col_str = col_str +" "+ str(archive_data.iloc[s][column])
+        if type(elem) != np.nan and not pd.isna(elem):
+            if type(elem) == np.float64:
+                col_str = col_str +" "+ str(int(elem))
+            else:
+                cell_str = str(archive_data.iloc[s][column])
+                if cell_str != "nan":
+                    col_str = col_str +" "+ cell_str
         s+=1 
     return col_str
 
@@ -52,7 +58,8 @@ def parse(archive_data:pd.DataFrame)->pd.DataFrame:
 
         i+=1
 
-    return pd.DataFrame(parsed_data,columns = cols)
+    final_df = pd.DataFrame(parsed_data,columns = cols)
+    final_df.to_csv(PATH_TO_SAVE)
 
 def main():
     df:pd.DataFrame = pd.read_csv(df_path)
